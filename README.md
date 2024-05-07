@@ -1,10 +1,25 @@
-## YeogiEottae-Server 🍀
+## 🚘  여기어때(YeogiEottae)
 
-### Back-end (Spring 🌱)
+> 합동세미나 모바일 앱, 여기어때 팀입니다.
+<br/>
+
+
+##  Back-end (Spring 🌱)
 | <img src="https://avatars.githubusercontent.com/u/150939763?v=4" width=300px alt="서버/정정교"/>  | <img src="https://avatars.githubusercontent.com/u/63058347?v=4" width=300px alt="서버/신정윤"/>  | 
 | :-----: | :-----: |
 | [정정교/Junggyo1020](https://github.com/junggyo1020) | [신정윤/JungYoonShin](https://github.com/JungYoonShin) |
 
+<br/>
+
+## 💡 Git Convention
+> **Git Flow**
+> 
+- `main` : 배포 프랜치
+- `develop` : 개발 브랜치
+- `type/#이슈번호` : 세부 개발 브랜치
+    - 생성한 이슈번호로 브랜치를 생성한다.
+    - ex) feat/#20
+- PR 머지 후 해당 브랜치는 삭제한다.
 <br/>
 
 ## 📌 Commit Convention
