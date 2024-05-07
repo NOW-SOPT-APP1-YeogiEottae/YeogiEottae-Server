@@ -5,6 +5,8 @@
 | :-----: | :-----: |
 | [정정교/Junggyo1020](https://github.com/junggyo1020) | [신정윤/JungYoonShin](https://github.com/JungYoonShin) |
 
+<br/>
+
 ## 📌 Commit Convention
 ### Commit 메세지
 ```text
@@ -12,12 +14,16 @@
 
 ex) [feat/#20]: 검색 결과 필터링 기능 추가
 ```
+<br/>
+
 ### Branch 이름
 ```text
 type/#이슈번호
 
 ex) feat/#20
 ```
+<br/>
+
 ### Branch 종류
 | Type | 의미 |
 | --- | --- |
@@ -34,6 +40,8 @@ ex) feat/#20
 | ✒️ Comment | 필요한 주석 추가 및 변경 |
 | 📂 File | 파일 또는 폴더명 수정, 이동, 삭제 등의 작업만 수행한 경우 |
 | 🔥 !HOTFIX | 급하게 치명적인 버그를 고쳐야 하는 경우 |
+
+<br/>
 
 ## 📂 Structure
 ```text
