@@ -9,11 +9,11 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class HotelLike extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +27,20 @@ public class HotelLike extends BaseEntity {
 
     @OneToMany(mappedBy = "hotelLike", cascade = CascadeType.ALL)
     private List<RoomLike> roomLikeList = new ArrayList<>();
+
+    @Builder(access = PRIVATE)
+    private HotelLike(final User user, final Long hotelId)
+    {
+        this.user = user;
+        this.hotelId = hotelId;
+    }
+
+    // 생성 메서드 정의
+    public static HotelLike createHotelLike(final User user, final Long hotelId)
+    {
+        return HotelLike.builder()
+                .user(user)
+                .hotelId(hotelId)
+                .build();
+    }
 }

@@ -1,18 +1,20 @@
 package com.joinseminar.yeogieottae.domain.hotel.model;
 
 import com.joinseminar.yeogieottae.domain.room.model.Room;
+import com.joinseminar.yeogieottae.global.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class Hotel {
+public class Hotel extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long hotelId; // 호텔 ID
@@ -34,4 +36,28 @@ public class Hotel {
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Room> roomList = new ArrayList<>();
+
+    @Builder(access = PRIVATE)
+    private Hotel(final String hotelName, final String star, final String location,
+                  final double reviewRate, final int reviewCount)
+    {
+        this.hotelName = hotelName;
+        this.star = star;
+        this.location = location;
+        this.reviewRate = reviewRate;
+        this.reviewCount = reviewCount;
+    }
+
+    // 생성 메서드 정의
+    public static Hotel createHotel(final String hotelName, final String star, final String location,
+                                    final double reviewRate, final int reviewCount)
+    {
+        return Hotel.builder()
+                .hotelName(hotelName)
+                .star(star)
+                .location(location)
+                .reviewRate(reviewRate)
+                .reviewCount(reviewCount)
+                .build();
+    }
 }
