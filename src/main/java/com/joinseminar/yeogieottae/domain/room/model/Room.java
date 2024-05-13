@@ -7,9 +7,7 @@ import lombok.*;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Room extends BaseEntity {
 
     @Id
@@ -35,4 +33,32 @@ public class Room extends BaseEntity {
     private String endTime; // 퇴실 시간
 
     private boolean isLiked; // 찜 목록 추가 여부
+
+    @Builder
+    private Room(final Hotel hotel, final String roomName, final int price,
+                 final String roomImage, final String startTime, final String endTime,
+                 final boolean isLiked)
+    {
+        this.hotel = hotel;
+        this.roomName = roomName;
+        this.price = price;
+        this.roomImage = roomImage;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isLiked = isLiked;
+    }
+
+    public static Room createRoom(final Hotel hotel, final String roomName, final int price,
+                                  final String roomImage, final String startTime, final String endTime)
+    {
+        return Room.builder()
+                .hotel(hotel)
+                .roomName(roomName)
+                .price(price)
+                .roomImage(roomImage)
+                .startTime(startTime)
+                .endTime(endTime)
+                .isLiked(false)
+                .build();
+    }
 }

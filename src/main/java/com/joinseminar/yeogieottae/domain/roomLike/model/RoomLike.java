@@ -8,9 +8,7 @@ import lombok.*;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class RoomLike extends BaseEntity {
 
     @Id
@@ -28,4 +26,23 @@ public class RoomLike extends BaseEntity {
     private Long roomId; // 객실 ID
 
     private boolean isCompared; // 비교하기 목록 추가 여부
+
+    @Builder
+    private RoomLike(final HotelLike hotelLike, final User user, final Long roomId, final boolean isCompared)
+    {
+        this.hotelLike = hotelLike;
+        this.user = user;
+        this.roomId = roomId;
+        this.isCompared = isCompared;
+    }
+
+    public static RoomLike createRoomLike(final HotelLike hotelLike, final User user, final Long roomId)
+    {
+        return RoomLike.builder()
+                .hotelLike(hotelLike)
+                .user(user)
+                .roomId(roomId)
+                .isCompared(false)
+                .build();
+    }
 }

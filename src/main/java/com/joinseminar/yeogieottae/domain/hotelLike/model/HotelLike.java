@@ -15,6 +15,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HotelLike extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long hotelLikeId; // 호텔 찜 목록 ID

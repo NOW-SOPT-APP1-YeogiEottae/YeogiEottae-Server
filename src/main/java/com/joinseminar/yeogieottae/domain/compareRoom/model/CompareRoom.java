@@ -21,4 +21,18 @@ public class CompareRoom extends BaseEntity {
     private Long roomId; // 객실 ID
 
     private Long userId; // 유저 ID
+
+    @Builder(access = PRIVATE)
+    private CompareRoom(final Long roomId, final Long userId) {
+        this.roomId = roomId;
+        this.userId = userId;
+    }
+
+    // 생성 메서드 정의
+    public static CompareRoom createCompareRoom(final Long roomId, final Long userId){
+        return CompareRoom.builder()
+                .roomId(roomId)
+                .userId(userId)
+                .build();
+    }
 }
