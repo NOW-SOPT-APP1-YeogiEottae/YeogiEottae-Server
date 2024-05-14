@@ -22,21 +22,15 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public  ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
-
-
-
-
-//
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public  ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-//
-//        ErrorMessage errorCode = ErrorCode.INVALID_VALUE;
-//        return ResponseEntity.status(errorCode.getHttpStatus())
-//                .body(ErrorResponse.of(
-//                        errorCode.getHttpStatus(),
-//                        errorCode.getMessage(),
-//                        e.getBindingResult()
-//                ));
-//    }
+        ErrorMessage errorMessage = ErrorMessage.INVALID_VALUE;
+        return ResponseEntity.status(errorMessage.getStatus())
+                .body(ErrorResponse.of(
+                        errorMessage.getStatus(),
+                        errorMessage.getMessage(),
+                        e.getBindingResult()
+                ));
+    }
 }
