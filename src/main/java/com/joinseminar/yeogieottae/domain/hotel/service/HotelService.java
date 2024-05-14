@@ -26,6 +26,6 @@ public class HotelService {
                 .map(RoomDetailResponse::of)
                 .toList();
 
-        return HotelDetailResponse.of();
+        return HotelDetailResponse.of(hotel, roomDetailResponses);
     }
 }

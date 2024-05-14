@@ -1,5 +1,6 @@
 package com.joinseminar.yeogieottae.domain.hotel.controller;
 
+import com.joinseminar.yeogieottae.domain.hotel.dto.response.HotelDetailResponse;
 import com.joinseminar.yeogieottae.domain.hotel.model.Hotel;
 import com.joinseminar.yeogieottae.domain.hotel.service.HotelService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class HotelController {
     private final HotelService hotelService;
 
     @GetMapping("/hotels/{hotelId}")
-    public void getHotelDetail(@PathVariable Long hotelId) {
-        hotelService.getHotelDetail(hotelId);
+    public HotelDetailResponse getHotelDetail(@PathVariable Long hotelId) {
+        return hotelService.getHotelDetail(hotelId);
     }
 }
