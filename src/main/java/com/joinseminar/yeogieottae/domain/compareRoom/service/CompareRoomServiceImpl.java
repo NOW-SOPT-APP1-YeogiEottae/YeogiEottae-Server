@@ -1,10 +1,14 @@
 package com.joinseminar.yeogieottae.domain.compareRoom.service;
 
 import com.joinseminar.yeogieottae.domain.compareRoom.dto.ComPareRoomRequest;
+import com.joinseminar.yeogieottae.domain.compareRoom.dto.LikedRoomDetailResponse;
+import com.joinseminar.yeogieottae.domain.compareRoom.dto.LikedRoomListResponse;
 import com.joinseminar.yeogieottae.domain.compareRoom.model.CompareRoom;
 import com.joinseminar.yeogieottae.domain.compareRoom.repository.CompareRoomRepository;
+import com.joinseminar.yeogieottae.domain.room.model.Room;
 import com.joinseminar.yeogieottae.domain.roomLike.model.RoomLike;
 import com.joinseminar.yeogieottae.domain.roomLike.repository.RoomLikeRepository;
+import com.joinseminar.yeogieottae.domain.user.model.User;
 import com.joinseminar.yeogieottae.global.exception.enums.ErrorMessage;
 import com.joinseminar.yeogieottae.global.exception.model.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,5 +55,15 @@ public class CompareRoomServiceImpl implements CompareRoomService {
                 .collect(Collectors.toList());
 
         compareRoomRepository.saveAll(compareRooms);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public LikedRoomListResponse getLikedRooms(Long userId) {
+        List<Room> likedRoomsNotInCompareRoom = roomLikeRepository.findByUserIdNotInCompareRoom(userId);
+
+        return LikedRoomListResponse.of(likedRoomsNotInCompareRoom.stream()
+                        .map(LikedRoomDetailResponse::of)
+                        .toList());
     }
 }
