@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.joinseminar.yeogieottae.global.exception.enums.SuccessMessage.ADD_COMPARE_TO_LIST_BY_ID;
+import static com.joinseminar.yeogieottae.global.exception.enums.SuccessMessage.GET_COMPARE_TO_LIST_BY_ID;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +38,6 @@ public class CompareRoomController {
             @RequestParam(value = "price", required = false) String price,
             @RequestParam(value = "review", required = false) String review){
         List<CompareRoomResponse> compareRooms = compareRoomService.getCompareRooms(userId, price, review);
-        return ResponseEntity.ok(SuccessResponse.of(SuccessMessage.GET_COMPARE_TO_LIST_BY_ID, compareRooms));
+        return ResponseEntity.ok(SuccessResponse.of(GET_COMPARE_TO_LIST_BY_ID, compareRooms));
     }
 }
