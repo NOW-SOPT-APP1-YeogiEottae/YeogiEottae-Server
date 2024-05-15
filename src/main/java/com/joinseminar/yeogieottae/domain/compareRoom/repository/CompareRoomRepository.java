@@ -24,4 +24,7 @@ public interface CompareRoomRepository extends JpaRepository<CompareRoom, Long> 
     //이미 비교하기 목록에 추가된 roomId를 확인하는 메서드
     @Query("SELECT cr.roomId FROM CompareRoom cr where cr.userId = :userId AND cr.roomId IN :roomIds")
     List<Long> findAlreadyComparedRoomIds(@Param("userId") Long userId, @Param("roomIds") List<Long> roomIds);
+
+    //비교하기 목록의 개수를 반환하는 메서드
+    long countByUserId(Long userId);
 }

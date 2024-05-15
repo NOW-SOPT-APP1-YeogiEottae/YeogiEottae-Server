@@ -69,6 +69,16 @@ public class CompareRoomServiceImpl implements CompareRoomService {
                 .filter(roomId -> !alreadyCompareRoomIds.contains(roomId))
                 .collect(Collectors.toList());
 
+        // 현재 비교하기 항목이 5개를 초과하는지 확인하기
+        long currentCompareRoomCount = compareRoomRepository.countByUserId(userId);
+
+        if(currentCompareRoomCount + roomIdsToAdd.size() > 5){
+            throw new CustomException(ErrorMessage.COMPARE_ROOM_LIMIT_EXCEEDED);
+        }
+
+        // 비교하기 목록에 추가된 항목의 is_compared를 true으로 변경하기
+        roomLikeRepository.updateIsComparedByUserIdAndRoomIds(userId, roomIdsToAdd, true);
+
         List<CompareRoom> compareRooms = roomIdsToAdd.stream()
                 .map(roomId -> CompareRoom.createCompareRoom(roomId, userId))
                 .collect(Collectors.toList());
