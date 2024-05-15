@@ -1,8 +1,10 @@
 package com.joinseminar.yeogieottae.domain.compareRoom.service;
 
 import com.joinseminar.yeogieottae.domain.compareRoom.dto.ComPareRoomRequest;
+import com.joinseminar.yeogieottae.domain.compareRoom.dto.response.CompareRoomResponse;
 import com.joinseminar.yeogieottae.domain.compareRoom.model.CompareRoom;
 import com.joinseminar.yeogieottae.domain.compareRoom.repository.CompareRoomRepository;
+import com.joinseminar.yeogieottae.domain.room.model.Room;
 import com.joinseminar.yeogieottae.domain.roomLike.model.RoomLike;
 import com.joinseminar.yeogieottae.domain.roomLike.repository.RoomLikeRepository;
 import com.joinseminar.yeogieottae.global.exception.enums.ErrorMessage;
@@ -20,6 +22,28 @@ public class CompareRoomServiceImpl implements CompareRoomService {
 
     private final CompareRoomRepository compareRoomRepository;
     private final RoomLikeRepository roomLikeRepository;
+
+    @Transactional
+    @Override
+    public List<CompareRoomResponse> getCompareRooms(Long userId, String price, String review) {
+        List<CompareRoomResponse> roomResponses = compareRoomRepository.findCompareRoomsByUserId(userId);
+
+        // 리뷰 정렬(높은순)
+        if("1".equals(review)){
+            roomResponses.sort((r1,r2) -> Double.compare(r1.reviewRate(), r2.reviewRate()));
+        } else {
+            roomResponses.sort((r1,r2) -> Double.compare(r2.reviewRate(), r1.reviewRate()));
+        }
+
+        // 가격 정렬하기(낮은순)
+        if("1".equals(price)){
+            roomResponses.sort((r1,r2) -> Integer.compare(r2.price(), r1.price()));
+        } else {
+            roomResponses.sort((r1,r2) -> Integer.compare(r1.price(), r2.price()));
+        }
+
+        return roomResponses;
+    }
 
     @Transactional
     @Override

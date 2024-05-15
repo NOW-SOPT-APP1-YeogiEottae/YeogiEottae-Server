@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum SuccessMessage {
 
     ADD_COMPARE_TO_LIST_BY_ID(200, true, "비교하기 목록에 찜 목록이 추가되었습니다."),
+    GET_COMPARE_TO_LIST_BY_ID(200, true, "비교하기 목록 불러오기를 성공했습니다."),
     ;
     private final int status;
     private final boolean success;
