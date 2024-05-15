@@ -11,7 +11,7 @@ public record SuccessResponse<T> (
 
         String message,
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        T data
+        T result
 ) {
     public static <T> SuccessResponse of(SuccessMessage successMessage){
         return new SuccessResponse(successMessage.getStatus(), successMessage.isSuccess(), successMessage.getMessage(), null);
