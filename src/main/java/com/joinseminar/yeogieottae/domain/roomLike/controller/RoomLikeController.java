@@ -7,6 +7,7 @@ import com.joinseminar.yeogieottae.global.exception.enums.SuccessMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,6 @@ public class RoomLikeController {
             @Valid @RequestBody PostHotelOrRoomLikeRequest postHotelOrRoomLikeRequest
             ) {
         roomLikeService.createHotelOrRoomLike(userId, roomType, postHotelOrRoomLikeRequest.id());
-        return ResponseEntity.ok(SuccessResponse.of(POST_LIKE_SUCCESS));
+        return ResponseEntity.status(HttpStatus.CREATED).body((SuccessResponse.of(POST_LIKE_SUCCESS)));
     }
 }
