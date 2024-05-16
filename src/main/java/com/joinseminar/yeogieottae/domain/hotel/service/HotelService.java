@@ -7,6 +7,7 @@ import com.joinseminar.yeogieottae.domain.room.dto.response.RoomDetailResponse;
 import com.joinseminar.yeogieottae.global.exception.model.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import static com.joinseminar.yeogieottae.global.exception.enums.ErrorMessage.HO
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class HotelService {
 
     private final HotelRepository hotelRepository;
