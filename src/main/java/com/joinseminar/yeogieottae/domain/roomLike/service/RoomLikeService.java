@@ -11,7 +11,6 @@ import com.joinseminar.yeogieottae.domain.user.model.User;
 import com.joinseminar.yeogieottae.domain.user.repository.UserRepository;
 import com.joinseminar.yeogieottae.global.exception.model.CustomException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
