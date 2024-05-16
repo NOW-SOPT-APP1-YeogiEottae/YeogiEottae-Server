@@ -44,7 +44,6 @@ public class CompareRoomController {
     }
 
     @GetMapping
-    @Operation(summary = "비교하기 목록 조회 API", description = "비교하기 목록을 조회하는 API 구현")
     public ResponseEntity<SuccessResponse<List<CompareRoomResponse>>> getCompareRooms(
             @RequestHeader Long userId,
             @RequestParam(value = "price", required = false) String price,

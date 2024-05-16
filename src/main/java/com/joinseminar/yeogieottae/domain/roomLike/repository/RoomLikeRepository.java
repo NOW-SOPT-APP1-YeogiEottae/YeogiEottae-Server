@@ -26,4 +26,6 @@ public interface RoomLikeRepository extends JpaRepository<RoomLike, Long> {
     @Query("UPDATE RoomLike rl SET rl.isCompared = :isCompared WHERE rl.user.userId = :userId AND rl.roomId IN :roomIds")
     void updateIsComparedByUserIdAndRoomIds(@Param("userId") long userId, @Param("roomIds") List<Long> roomIds, @Param("isCompared") boolean isCompared);
 
+    Optional<RoomLike> findByRoomIdAndUser(Long roomId, User userId);
+
 }
