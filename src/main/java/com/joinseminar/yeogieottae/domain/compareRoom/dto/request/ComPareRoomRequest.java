@@ -1,4 +1,4 @@
-package com.joinseminar.yeogieottae.domain.compareRoom.dto;
+package com.joinseminar.yeogieottae.domain.compareRoom.dto.request;
 
 import java.util.List;
 

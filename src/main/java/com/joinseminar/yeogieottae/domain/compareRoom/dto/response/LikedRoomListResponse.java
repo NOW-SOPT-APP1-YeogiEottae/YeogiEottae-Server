@@ -1,7 +1,4 @@
-package com.joinseminar.yeogieottae.domain.compareRoom.dto;
-
-import com.joinseminar.yeogieottae.domain.room.model.Room;
-import com.joinseminar.yeogieottae.domain.roomLike.model.RoomLike;
+package com.joinseminar.yeogieottae.domain.compareRoom.dto.response;
 
 import java.util.List;
 

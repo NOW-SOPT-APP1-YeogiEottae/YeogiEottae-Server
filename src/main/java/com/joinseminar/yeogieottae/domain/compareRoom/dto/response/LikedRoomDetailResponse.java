@@ -1,4 +1,4 @@
-package com.joinseminar.yeogieottae.domain.compareRoom.dto;
+package com.joinseminar.yeogieottae.domain.compareRoom.dto.response;
 
 import com.joinseminar.yeogieottae.domain.room.model.Room;
 import lombok.Builder;
