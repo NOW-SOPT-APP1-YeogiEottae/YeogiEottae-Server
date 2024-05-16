@@ -33,10 +33,10 @@ public class RoomLikeService {
     public void createHotelOrRoomLike(final Long userId, final int roomType, final Long hotelOrRoomId) {
         User user = findUser(userId);
 
-        Optional<HotelLike> byHotelIdAndUser = hotelLikeRepository.findByHotelIdAndUser(hotelOrRoomId, user);
+        Optional<HotelLike> byHotelIdAndUser;
 
         if (roomType == 0) {
-            byHotelIdAndUser.ifPresent(
+            findHotelLike(user, hotelOrRoomId).ifPresent(
                     m -> { throw new CustomException(ALREADY_LIKED_HOTEL);}
             );
             hotelRepository.findById(hotelOrRoomId).orElseThrow(
@@ -44,18 +44,42 @@ public class RoomLikeService {
             );
             hotelLikeRepository.save(HotelLike.createHotelLike(user, hotelOrRoomId));
         } else if (roomType == 1) {
-            roomLikeRepository.findByRoomIdAndUser(hotelOrRoomId, user).ifPresent(
+            findRoomLike(user, hotelOrRoomId).ifPresent(
                     m -> { throw new CustomException(ALREADY_LIKED_ROOM);}
             );
             Room room = roomRepository.findById(hotelOrRoomId).orElseThrow(
                     () -> new CustomException(ROOM_NOT_FOUND)
             );
+
             //해당 객실의 호텔을 이미 찜한 상태라면 roomlike가 hotellike를 참조할 수 있도록
-            byHotelIdAndUser.ifPresentOrElse(
+            findHotelLike(user, room.getHotel().getHotelId()).ifPresentOrElse(
                             hotelLike -> roomLikeRepository.save(RoomLike.createRoomLike(hotelLike, user, hotelOrRoomId)),
                             () -> roomLikeRepository.save(RoomLike.createRoomLike(null, user, hotelOrRoomId))
                     );
         }
+    }
+
+    @Transactional
+    public void deleteHotelOrRoomLike(final Long userId, final int roomType, final Long hotelOrRoomId) {
+        User user = findUser(userId);
+
+        if (roomType == 0) {
+            findHotelLike(user, hotelOrRoomId).ifPresent(
+                    m -> hotelLikeRepository.deleteByHotelLikeId(m.getHotelLikeId())
+            );
+        } else if(roomType == 1) {
+            findRoomLike(user, hotelOrRoomId).ifPresent(
+                    m -> roomLikeRepository.deleteById(m.getRoomLikeId())
+            );
+        }
+    }
+
+    public Optional<HotelLike> findHotelLike(User user, Long hotelId) {
+        return hotelLikeRepository.findByHotelIdAndUser(hotelId, user);
+    }
+
+    public Optional<RoomLike> findRoomLike(User user, Long roomId) {
+        return roomLikeRepository.findByRoomIdAndUser(roomId, user);
     }
 
     public User findUser(Long userId) {

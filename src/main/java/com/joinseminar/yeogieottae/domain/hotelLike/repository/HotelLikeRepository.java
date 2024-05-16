@@ -8,5 +8,8 @@ import java.util.Optional;
 
 public interface HotelLikeRepository extends Repository<HotelLike, Long> {
     void save(HotelLike hotelLike);
+
     Optional<HotelLike> findByHotelIdAndUser(Long hotelId, User userId);
+
+    void deleteByHotelLikeId(Long hotelLikeId);
 }
