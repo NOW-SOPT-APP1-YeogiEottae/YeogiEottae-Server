@@ -56,7 +56,10 @@ public class HotelLikeServiceImpl implements HotelLikeService {
 
                     //RoomLike 목록에서 HotelLike에 해당하는 객실만 가져오기
                     List<Room> rooms = roomLikes.stream()
-                            .filter(roomLike -> roomLike.getHotelLike().getHotelLikeId().equals(hotelLike.getHotelLikeId()))
+                            .filter(roomLike -> {
+                                HotelLike hl = roomLike.getHotelLike();
+                                return hl != null && hl.getHotelLikeId().equals(hotelLike.getHotelLikeId());
+                            })
                             .map(roomLike -> roomMap.get(roomLike.getRoomId()))
                             .collect(Collectors.toList());
 
