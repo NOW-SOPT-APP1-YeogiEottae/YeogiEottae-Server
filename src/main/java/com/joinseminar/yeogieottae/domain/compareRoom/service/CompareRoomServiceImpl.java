@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CompareRoomServiceImpl implements CompareRoomService {
 
     private final CompareRoomRepository compareRoomRepository;
     private final RoomLikeRepository roomLikeRepository;
 
-    @Transactional
     @Override
     public List<CompareRoomResponse> getCompareRooms(Long userId, String price, String review) {
         List<CompareRoomResponse> roomResponses = compareRoomRepository.findCompareRoomsByUserId(userId);
@@ -86,8 +86,6 @@ public class CompareRoomServiceImpl implements CompareRoomService {
 
         compareRoomRepository.saveAll(compareRooms);
     }
-
-    @Transactional(readOnly = true)
     @Override
     public LikedRoomListResponse getLikedRooms(Long userId) {
         List<Room> likedRoomsNotInCompareRoom = roomLikeRepository.findByUserIdNotInCompareRoom(userId);
