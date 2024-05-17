@@ -12,7 +12,6 @@ public record HotelDetailResponse(
         String star,
         String location,
         double review_rate,
-
         int review_count,
         boolean is_liked,
         List<RoomDetailResponse> room_list
