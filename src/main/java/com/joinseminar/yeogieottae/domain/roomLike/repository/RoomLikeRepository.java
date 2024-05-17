@@ -1,5 +1,7 @@
 package com.joinseminar.yeogieottae.domain.roomLike.repository;
 
+import com.joinseminar.yeogieottae.domain.hotel.model.Hotel;
+import com.joinseminar.yeogieottae.domain.hotelLike.model.HotelLike;
 import com.joinseminar.yeogieottae.domain.room.model.Room;
 import com.joinseminar.yeogieottae.domain.roomLike.model.RoomLike;
 import com.joinseminar.yeogieottae.domain.user.model.User;
@@ -30,4 +32,12 @@ public interface RoomLikeRepository extends JpaRepository<RoomLike, Long> {
 
     @Query("SELECT rl FROM RoomLike rl WHERE rl.user.userId = :userId")
     List<RoomLike> findAllByUserId(@Param("userId") long userId);
+
+    @Modifying
+    @Query("UPDATE RoomLike rl set rl.hotelLike = null WHERE rl.user = :user AND rl.hotelLike = :hotelLike")
+    void updateHotelLikeId(@Param("user") User user, @Param("hotelLike") HotelLike hotelLike);
+
+    @Modifying
+    @Query("UPDATE RoomLike rl set rl.hotelLike = :hotelLike WHERE rl.user = :user AND rl.roomId IN :roomIds")
+    void updateHotelLikeId(@Param("user") User user, @Param("hotelLike") HotelLike hotelLike, @Param("roomIds") List<Long> roomsIds);
 }
