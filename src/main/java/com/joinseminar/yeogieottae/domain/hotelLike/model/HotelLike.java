@@ -26,7 +26,7 @@ public class HotelLike extends BaseEntity {
 
     private Long hotelId; // 호텔 ID
 
-    @OneToMany(mappedBy = "hotelLike", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hotelLike")
     private List<RoomLike> roomLikeList = new ArrayList<>();
 
     @Builder(access = PRIVATE)

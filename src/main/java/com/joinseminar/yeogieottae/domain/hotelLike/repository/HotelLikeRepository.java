@@ -15,4 +15,6 @@ public interface HotelLikeRepository extends JpaRepository<HotelLike, Long> {
 
     @Query("SELECT hl FROM HotelLike hl WHERE hl.user.userId = :userId")
     List<HotelLike> findAllByUserId(@Param("userId") Long userId);
+
+    void deleteByHotelLikeId(Long hotelLikeId);
 }

@@ -1,5 +1,6 @@
 package com.joinseminar.yeogieottae.domain.roomLike.service;
 
+import com.joinseminar.yeogieottae.domain.hotel.model.Hotel;
 import com.joinseminar.yeogieottae.domain.hotel.repository.HotelRepository;
 import com.joinseminar.yeogieottae.domain.hotelLike.model.HotelLike;
 import com.joinseminar.yeogieottae.domain.hotelLike.repository.HotelLikeRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.joinseminar.yeogieottae.global.exception.enums.ErrorMessage.*;
 
@@ -39,10 +41,15 @@ public class RoomLikeService {
             findHotelLike(user, hotelOrRoomId).ifPresent(
                     m -> { throw new CustomException(ALREADY_LIKED_HOTEL);}
             );
-            hotelRepository.findById(hotelOrRoomId).orElseThrow(
-                    ()-> new CustomException(HOTEL_NOT_FOUND)
+            Hotel hotel = hotelRepository.findById(hotelOrRoomId).orElseThrow(
+                    () -> new CustomException(HOTEL_NOT_FOUND)
             );
-            hotelLikeRepository.save(HotelLike.createHotelLike(user, hotelOrRoomId));
+
+            //해당 호텔에 속한 객실을 이미 찜했을 경우 hotel_like_id null 아니게 update
+            roomLikeRepository.updateHotelLikeId(user, hotelLikeRepository.save(
+                    HotelLike.createHotelLike(user, hotelOrRoomId)), hotel.getRoomList().stream().map(Room::getRoomId).toList()
+            );
+
         } else if (roomType == 1) {
             findRoomLike(user, hotelOrRoomId).ifPresent(
                     m -> { throw new CustomException(ALREADY_LIKED_ROOM);}
@@ -65,7 +72,8 @@ public class RoomLikeService {
 
         if (roomType == 0) {
             findHotelLike(user, hotelOrRoomId).ifPresent(
-                    m -> hotelLikeRepository.deleteByHotelLikeId(m.getHotelLikeId())
+                    a ->{roomLikeRepository.updateHotelLikeId(user, a);
+                        hotelLikeRepository.deleteByHotelLikeId(a.getHotelLikeId());}
             );
         } else if(roomType == 1) {
             findRoomLike(user, hotelOrRoomId).ifPresent(
