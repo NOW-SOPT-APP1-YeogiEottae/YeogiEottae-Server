@@ -28,4 +28,6 @@ public interface RoomLikeRepository extends JpaRepository<RoomLike, Long> {
 
     Optional<RoomLike> findByRoomIdAndUser(Long roomId, User userId);
 
+    @Query("SELECT rl FROM RoomLike rl WHERE rl.user.userId = :userId")
+    List<RoomLike> findAllByUserId(@Param("userId") long userId);
 }
