@@ -25,22 +25,22 @@ public class RoomLikeController {
     @PostMapping("/likes")
     @Operation(summary = "찜(호텔&객실) 추가 API", description = "찜(호텔&객실) 추가 API 구현")
     public ResponseEntity<SuccessResponse> createHotelOrRoomLike(
-            @RequestHeader Long userId,
+            @RequestHeader String userId,
             @RequestParam(value = "roomType") int roomType,
             @Valid @RequestBody PostHotelOrRoomLikeRequest postHotelOrRoomLikeRequest
     ) {
-        roomLikeService.createHotelOrRoomLike(userId, roomType, postHotelOrRoomLikeRequest.id());
+        roomLikeService.createHotelOrRoomLike(Long.valueOf(userId), roomType, postHotelOrRoomLikeRequest.id());
         return ResponseEntity.status(HttpStatus.CREATED).body((SuccessResponse.of(POST_LIKE_SUCCESS)));
     }
 
     @DeleteMapping("/likes")
     @Operation(summary = "찜(호텔&객실) 삭제(취소) API", description = "찜(호텔&객실) 삭제(취소) API 구현")
     public ResponseEntity<SuccessResponse> deleteHotelOrRoomLike(
-            @RequestHeader Long userId,
+            @RequestHeader String userId,
             @RequestParam(value = "roomType") int roomType,
             @Valid @RequestBody DeleteHotelOrRoomLikeRequest deleteHotelOrRoomLikeRequest
     ) {
-        roomLikeService.deleteHotelOrRoomLike(userId, roomType, deleteHotelOrRoomLikeRequest.id());
+        roomLikeService.deleteHotelOrRoomLike(Long.valueOf(userId), roomType, deleteHotelOrRoomLikeRequest.id());
         return ResponseEntity.ok(SuccessResponse.of(DELETE_LIKE_SUCCESS));
     }
 }

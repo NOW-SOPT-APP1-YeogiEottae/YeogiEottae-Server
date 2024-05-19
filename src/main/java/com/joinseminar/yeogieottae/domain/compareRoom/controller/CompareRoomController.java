@@ -28,28 +28,28 @@ public class CompareRoomController {
     @PostMapping("/likes")
     @Operation(summary = "비교하기 목록 > 찜 추가 API", description = "비교하기 목록에 찜 목록 추가 API 구현")
     public ResponseEntity<SuccessResponse> addRoomsToCompare(
-            @RequestHeader Long userId,
+            @RequestHeader String userId,
             @RequestBody ComPareRoomRequest request){
-        compareRoomService.addRoomsToCompare(userId, request);
+        compareRoomService.addRoomsToCompare(Long.valueOf(userId), request);
         return ResponseEntity.ok(SuccessResponse.of(ADD_COMPARE_TO_LIST_BY_ID));
     }
 
     @GetMapping("/likes")
     @Operation(summary = "비교하기 > 내가 찜한 객실 목록 조회 API", description = "비교하기에서 추가 버튼 클릭시 뜨는 찜 목록 API 구현")
-    public ResponseEntity<SuccessResponse<LikedRoomListResponse>> getLikedRooms(@RequestHeader Long userId) {
+    public ResponseEntity<SuccessResponse<LikedRoomListResponse>> getLikedRooms(@RequestHeader String userId) {
         return ResponseEntity.ok(SuccessResponse.of(
                 GET_LIKED_ROOM_NOT_IN_COMPARE_SUCCESS,
-                compareRoomService.getLikedRooms(userId))
+                compareRoomService.getLikedRooms(Long.valueOf(userId)))
         );
     }
 
     @GetMapping
     @Operation(summary = "비교하기 목록 조회 API", description = "비교하기 목록을 조회하는 API 구현")
     public ResponseEntity<SuccessResponse<List<CompareRoomResponse>>> getCompareRooms(
-            @RequestHeader Long userId,
+            @RequestHeader String userId,
             @RequestParam(value = "price", required = false) String price,
             @RequestParam(value = "review", required = false) String review) {
-        List<CompareRoomResponse> compareRooms = compareRoomService.getCompareRooms(userId, price, review);
+        List<CompareRoomResponse> compareRooms = compareRoomService.getCompareRooms(Long.valueOf(userId), price, review);
         return ResponseEntity.ok(SuccessResponse.of(GET_COMPARE_TO_LIST_BY_ID, compareRooms));
     }
 }

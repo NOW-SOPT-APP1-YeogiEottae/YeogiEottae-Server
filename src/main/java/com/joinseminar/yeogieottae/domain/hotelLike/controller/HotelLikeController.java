@@ -24,9 +24,9 @@ public class HotelLikeController {
     @GetMapping
     @Operation(summary = "찜 목록 조회 API", description = "찜 목록을 정보를 조회하는 API 구현")
     public ResponseEntity<SuccessResponse<List<HotelLikeResponse>>> getLikes(
-            @RequestHeader Long userId
+            @RequestHeader String userId
     ){
-        List<HotelLikeResponse> likes = hotelLikeService.getLikes(userId);
+        List<HotelLikeResponse> likes = hotelLikeService.getLikes(Long.valueOf(userId));
         return ResponseEntity.ok(SuccessResponse.of(SuccessMessage.GET_LIKES_SUCCESS, likes));
     }
 }
