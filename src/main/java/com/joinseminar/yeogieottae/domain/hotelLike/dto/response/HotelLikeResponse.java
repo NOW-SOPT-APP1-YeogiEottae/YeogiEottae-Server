@@ -29,10 +29,12 @@ public record HotelLikeResponse(
     }
 
     public static HotelLikeResponse of(HotelLike hotelLike, Room room, String hotelName, double reviewRate){
+        //객실만 추가될 경우 hotelLikeId가 null이여도 정상적으로 hotelId를 불러오도록 수정
+        Long hotelId = hotelLike != null ? hotelLike.getHotelId() : room.getHotel().getHotelId();
         // roomInfo가 없는 경우 null로 보내주도록 구현
         RoomInformation roomInformation = room != null ? RoomInformation.of(room) : null;
         return HotelLikeResponse.builder()
-                .hotelId(hotelLike.getHotelId())
+                .hotelId(hotelId)
                 .hotelName(hotelName)
                 .reviewRate(reviewRate)
                 .roomInformation(roomInformation)
