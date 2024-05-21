@@ -5,19 +5,19 @@ import lombok.Builder;
 
 @Builder
 public record LikedRoomDetailResponse(
-        Long room_id,
-        String hotel_name,
-        String room_name,
+        Long roomId,
+        String hotelName,
+        String roomName,
         String location,
-        String image_url
+        String imageUrl
 ) {
     public static LikedRoomDetailResponse of(final Room room) {
         return LikedRoomDetailResponse.builder()
-                .room_id(room.getRoomId())
-                .hotel_name(room.getHotel().getHotelName())
-                .room_name(room.getRoomName())
+                .roomId(room.getRoomId())
+                .hotelName(room.getHotel().getHotelName())
+                .roomName(room.getRoomName())
                 .location(room.getHotel().getLocation())
-                .image_url(room.getRoomImage())
+                .imageUrl(room.getRoomImage())
                 .build();
     }
 }

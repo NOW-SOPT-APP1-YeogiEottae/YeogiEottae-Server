@@ -8,22 +8,22 @@ import java.util.List;
 
 @Builder
 public record HotelDetailResponse(
-        String hotel_name,
+        String hotelName,
         String star,
         String location,
-        double review_rate,
-        int review_count,
-        boolean is_liked,
-        List<RoomDetailResponse> room_list
+        double reviewRate,
+        int reviewCount,
+        boolean isLiked,
+        List<RoomDetailResponse> roomList
 ) {
     public static HotelDetailResponse of(final Hotel hotel, final List<RoomDetailResponse> room_list) {
         return HotelDetailResponse.builder()
-                .hotel_name(hotel.getHotelName())
+                .hotelName(hotel.getHotelName())
                 .star(hotel.getStar())
                 .location(hotel.getLocation())
-                .review_rate(hotel.getReviewRate())
-                .review_count(hotel.getReviewCount())
-                .room_list(room_list)
+                .reviewRate(hotel.getReviewRate())
+                .reviewCount(hotel.getReviewCount())
+                .roomList(room_list)
                 .build();
     }
 }
