@@ -5,23 +5,23 @@ import lombok.Builder;
 
 @Builder
 public record RoomDetailResponse(
-        Long room_id,
-        String room_name,
+        Long roomId,
+        String roomName,
         int price,
-        String start_time,
-        String end_time,
-        String image_url,
-        boolean is_liked
+        String startTime,
+        String endTime,
+        String imageUrl,
+        boolean isLiked
 ) {
     public static RoomDetailResponse of(final Room room) {
         return RoomDetailResponse.builder()
-                .room_id(room.getRoomId())
-                .room_name(room.getRoomName())
+                .roomId(room.getRoomId())
+                .roomName(room.getRoomName())
                 .price(room.getPrice())
-                .start_time(room.getStartTime())
-                .end_time(room.getEndTime())
-                .image_url(room.getRoomImage())
-                .is_liked(room.isLiked())
+                .startTime(room.getStartTime())
+                .endTime(room.getEndTime())
+                .imageUrl(room.getRoomImage())
+                .isLiked(room.isLiked())
                 .build();
     }
 }
