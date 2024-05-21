@@ -1,6 +1,7 @@
 package com.joinseminar.yeogieottae.domain.compareRoom.controller;
 
 import com.joinseminar.yeogieottae.domain.compareRoom.dto.request.ComPareRoomRequest;
+import com.joinseminar.yeogieottae.domain.compareRoom.dto.request.DeleteCompareRoomRequest;
 import com.joinseminar.yeogieottae.domain.compareRoom.dto.response.LikedRoomListResponse;
 import com.joinseminar.yeogieottae.domain.compareRoom.dto.response.CompareRoomResponse;
 
@@ -13,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.joinseminar.yeogieottae.global.exception.enums.SuccessMessage.ADD_COMPARE_TO_LIST_BY_ID;
-import static com.joinseminar.yeogieottae.global.exception.enums.SuccessMessage.GET_LIKED_ROOM_NOT_IN_COMPARE_SUCCESS;
-import static com.joinseminar.yeogieottae.global.exception.enums.SuccessMessage.GET_COMPARE_TO_LIST_BY_ID;
+import static com.joinseminar.yeogieottae.global.exception.enums.SuccessMessage.*;
 
 
 @RestController
@@ -51,5 +50,15 @@ public class CompareRoomController {
             @RequestParam(value = "review", required = false) String review) {
         List<CompareRoomResponse> compareRooms = compareRoomService.getCompareRooms(Long.valueOf(userId), price, review);
         return ResponseEntity.ok(SuccessResponse.of(GET_COMPARE_TO_LIST_BY_ID, compareRooms));
+    }
+
+
+    @DeleteMapping("/likes")
+    @Operation(summary = "비교하기 목록에서 찜 삭제 API", description = "비교하기 목록에서 찜 삭제 API 구현")
+    public ResponseEntity<SuccessResponse> deleteCompareRoom(
+            @RequestHeader String userId,
+            @RequestBody DeleteCompareRoomRequest request) {
+        compareRoomService.deleteCompareRoom(Long.valueOf(userId), request.roomId());
+        return ResponseEntity.ok(SuccessResponse.of(DELETE_COMPARE_LIKE_SUCCESS));
     }
 }

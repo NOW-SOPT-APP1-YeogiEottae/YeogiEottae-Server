@@ -3,6 +3,7 @@ package com.joinseminar.yeogieottae.domain.compareRoom.repository;
 import com.joinseminar.yeogieottae.domain.compareRoom.dto.response.CompareRoomResponse;
 import com.joinseminar.yeogieottae.domain.compareRoom.model.CompareRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -27,4 +28,9 @@ public interface CompareRoomRepository extends JpaRepository<CompareRoom, Long> 
 
     //비교하기 목록의 개수를 반환하는 메서드
     long countByUserId(Long userId);
+
+    //비교하기 목록을 삭제하는 메서드
+    @Modifying
+    @Query("DELETE FROM CompareRoom cr WHERE cr.roomId = :roomId AND cr.userId = :userId")
+    void deleteByRoomIdAndUserId(@Param("roomId") Long roomId, @Param("userId") Long userId);
 }

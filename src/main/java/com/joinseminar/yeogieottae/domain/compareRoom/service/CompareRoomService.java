@@ -13,4 +13,7 @@ public interface CompareRoomService {
     // 비교하기 목록에 추가하기
     void addRoomsToCompare(Long userId, ComPareRoomRequest request);
     LikedRoomListResponse getLikedRooms(Long userId);
+
+    // 비교하기 목록 삭제하기
+    void deleteCompareRoom(Long userId, Long roomId);
 }
