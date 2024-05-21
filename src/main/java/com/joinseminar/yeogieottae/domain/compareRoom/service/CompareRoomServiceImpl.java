@@ -94,4 +94,11 @@ public class CompareRoomServiceImpl implements CompareRoomService {
                         .map(LikedRoomDetailResponse::of)
                         .toList());
     }
+
+    // 비교하기 목록 삭제하기
+    @Transactional
+    @Override
+    public void deleteCompareRoom(Long userId, Long roomId){
+        compareRoomRepository.deleteByRoomIdAndUserId(roomId, userId);
+    }
 }

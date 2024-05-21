@@ -28,7 +28,7 @@ public class HotelLikeServiceImpl implements HotelLikeService {
     private final RoomRepository roomRepository;
 
     @Override
-    public List<HotelLikeResponse> getLikes(Long userId){
+    public List<HotelLikeResponse> getLikes(Long userId) {
         //userId로 호텔 찜 목록 조회하기
         List<HotelLike> hotelLikes = hotelLikeRepository.findAllByUserId(userId);
 
@@ -49,9 +49,18 @@ public class HotelLikeServiceImpl implements HotelLikeService {
         Map<Long, Room> roomMap = roomRepository.findAllById(roomIds).stream()
                 .collect(Collectors.toMap(Room::getRoomId, room -> room));
 
-        //호텔 찜 정보를 순회하면서 LikeResponse 생성하기
-        return hotelLikes.stream()
-                .map(hotelLike -> {
+        //hotelLikeId가 null인 Roomlike 항목 처리하기
+        List<HotelLikeResponse> roomLikeResposnes = roomLikes.stream()
+                .filter(roomLike -> roomLike.getHotelLike() == null)
+                .map(roomLike -> {
+                    Room room = roomMap.get(roomLike.getRoomId());
+                    Hotel hotel = hotelMap.computeIfAbsent(room.getHotel().getHotelId(), id -> room.getHotel());
+                    return HotelLikeResponse.of(null, room, hotel.getHotelName(), hotel.getReviewRate());
+                })
+                .collect(Collectors.toList());
+
+        List<HotelLikeResponse> hotelLikeResponses = hotelLikes.stream()
+                .flatMap(hotelLike -> {
                     Hotel hotel = hotelMap.get(hotelLike.getHotelId());
 
                     //RoomLike 목록에서 HotelLike에 해당하는 객실만 가져오기
@@ -65,15 +74,43 @@ public class HotelLikeServiceImpl implements HotelLikeService {
 
                     if (rooms.isEmpty()) {
                         // 호텔만 좋아요한 경우
-                        return List.of(HotelLikeResponse.of(hotelLike, null, hotel.getHotelName(), hotel.getReviewRate()));
+                        return List.of(HotelLikeResponse.of(hotelLike, null, hotel.getHotelName(), hotel.getReviewRate())).stream();
                     } else {
                         // 호텔과 방을 모두 좋아요한 경우
                         return rooms.stream()
-                                .map(room -> HotelLikeResponse.of(hotelLike, room, hotel.getHotelName(), hotel.getReviewRate()))
-                                .collect(Collectors.toList());
+                                .map(room -> HotelLikeResponse.of(hotelLike, room, hotel.getHotelName(), hotel.getReviewRate()));
                     }
                 })
-                .flatMap(List::stream) // Map -> List 형태로 반환하기 위해 사용
                 .collect(Collectors.toList());
+
+        //두 리스트 합치기
+        hotelLikeResponses.addAll(roomLikeResposnes);
+        return hotelLikeResponses;
     }
+        //호텔 찜 정보를 순회하면서 LikeResponse 생성하기
+//        return hotelLikes.stream()
+//                .map(hotelLike -> {
+//                    Hotel hotel = hotelMap.get(hotelLike.getHotelId());
+//
+//                    //RoomLike 목록에서 HotelLike에 해당하는 객실만 가져오기
+//                    List<Room> rooms = roomLikes.stream()
+//                            .filter(roomLike -> {
+//                                HotelLike hl = roomLike.getHotelLike();
+//                                return hl != null && hl.getHotelLikeId().equals(hotelLike.getHotelLikeId());
+//                            })
+//                            .map(roomLike -> roomMap.get(roomLike.getRoomId()))
+//                            .collect(Collectors.toList());
+//
+//                    if (rooms.isEmpty()) {
+//                        // 호텔만 좋아요한 경우
+//                        return List.of(HotelLikeResponse.of(hotelLike, null, hotel.getHotelName(), hotel.getReviewRate()));
+//                    } else {
+//                        // 호텔과 방을 모두 좋아요한 경우
+//                        return rooms.stream()
+//                                .map(room -> HotelLikeResponse.of(hotelLike, room, hotel.getHotelName(), hotel.getReviewRate()))
+//                                .collect(Collectors.toList());
+//                    }
+//                })
+//                .flatMap(List::stream) // Map -> List 형태로 반환하기 위해 사용
+//                .collect(Collectors.toList());
 }
