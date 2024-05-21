@@ -14,6 +14,7 @@ public enum SuccessMessage {
     POST_LIKE_SUCCESS(201, true, "찜 추가 요청 성공"),
     DELETE_LIKE_SUCCESS(200, true, "찜 삭제 성공"),
     GET_LIKES_SUCCESS(200, true, "찜 목록 정보 불러오기를 성공했습니다."),
+    DELETE_COMPARE_LIKE_SUCCESS(200, true, "비교하기 목록에서 찜 목록 삭제를 성공했습니다."),
     ;
   
     private final int status;
