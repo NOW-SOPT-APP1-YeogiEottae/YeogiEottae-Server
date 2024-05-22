@@ -60,4 +60,8 @@ public class Hotel extends BaseEntity {
                 .reviewCount(reviewCount)
                 .build();
     }
+
+    public void updateIsLiked(boolean isLiked) {
+        this.isLiked = isLiked;
+    }
 }
