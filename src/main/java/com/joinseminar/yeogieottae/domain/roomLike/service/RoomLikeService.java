@@ -41,9 +41,10 @@ public class RoomLikeService {
             findHotelLike(user, hotelOrRoomId).ifPresent(
                     m -> { throw new CustomException(ALREADY_LIKED_HOTEL);}
             );
-            Hotel hotel = hotelRepository.findById(hotelOrRoomId).orElseThrow(
-                    () -> new CustomException(HOTEL_NOT_FOUND)
-            );
+
+            Hotel hotel = findHotel(hotelOrRoomId);
+
+            hotel.updateIsLiked(true);
 
             //해당 호텔에 속한 객실을 이미 찜했을 경우 hotel_like_id null 아니게 update
             roomLikeRepository.updateHotelLikeId(user, hotelLikeRepository.save(
@@ -54,9 +55,10 @@ public class RoomLikeService {
             findRoomLike(user, hotelOrRoomId).ifPresent(
                     m -> { throw new CustomException(ALREADY_LIKED_ROOM);}
             );
-            Room room = roomRepository.findById(hotelOrRoomId).orElseThrow(
-                    () -> new CustomException(ROOM_NOT_FOUND)
-            );
+
+            Room room = findRoom(hotelOrRoomId);
+
+            room.updateIsLiked(true);
 
             //해당 객실의 호텔을 이미 찜한 상태라면 roomlike가 hotellike를 참조할 수 있도록
             findHotelLike(user, room.getHotel().getHotelId()).ifPresentOrElse(
@@ -71,13 +73,17 @@ public class RoomLikeService {
         User user = findUser(userId);
 
         if (roomType == 0) {
+            Hotel hotel = findHotel(hotelOrRoomId);
             findHotelLike(user, hotelOrRoomId).ifPresent(
                     a ->{roomLikeRepository.updateHotelLikeId(user, a);
-                        hotelLikeRepository.deleteByHotelLikeId(a.getHotelLikeId());}
+                        hotelLikeRepository.deleteByHotelLikeId(a.getHotelLikeId());
+                        hotel.updateIsLiked(false);}
             );
         } else if(roomType == 1) {
+            Room room = findRoom(hotelOrRoomId);
             findRoomLike(user, hotelOrRoomId).ifPresent(
-                    m -> roomLikeRepository.deleteById(m.getRoomLikeId())
+                    m -> {roomLikeRepository.deleteById(m.getRoomLikeId());
+                          room.updateIsLiked(false);}
             );
         }
     }
@@ -93,6 +99,18 @@ public class RoomLikeService {
     public User findUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(
                 ()-> new CustomException(USER_NOT_FOUND)
+        );
+    }
+
+    public Hotel findHotel(Long hotelId) {
+        return hotelRepository.findById(hotelId).orElseThrow(
+                () -> new CustomException(HOTEL_NOT_FOUND)
+        );
+    }
+
+    public Room findRoom(Long roomId) {
+        return roomRepository.findById(roomId).orElseThrow(
+                () -> new CustomException(ROOM_NOT_FOUND)
         );
     }
 }

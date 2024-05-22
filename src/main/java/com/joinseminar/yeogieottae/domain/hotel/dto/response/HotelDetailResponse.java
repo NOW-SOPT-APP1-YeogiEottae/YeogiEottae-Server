@@ -23,6 +23,7 @@ public record HotelDetailResponse(
                 .location(hotel.getLocation())
                 .reviewRate(hotel.getReviewRate())
                 .reviewCount(hotel.getReviewCount())
+                .isLiked(hotel.isLiked())
                 .roomList(room_list)
                 .build();
     }

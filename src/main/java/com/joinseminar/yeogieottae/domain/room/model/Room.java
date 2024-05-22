@@ -61,4 +61,8 @@ public class Room extends BaseEntity {
                 .isLiked(false)
                 .build();
     }
+
+    public void updateIsLiked(boolean isLiked) {
+        this.isLiked = isLiked;
+    }
 }
